@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/github_navigation_menu_item"
+        android:icon="@mipmap/icon_guthub"
+        android:title="@string/my_github"/>
+    <item
+        android:id="@+id/about_me_navigation_menu_item"
+        android:icon="@mipmap/icon_me"
+        android:title="@string/about_me"/>
+    <item
+        android:id="@+id/thanks_navigation_menu_item"
+        android:icon="@mipmap/icon_thanks"
+        android:title="@string/thanks_for"/>
+    <item
+        android:id="@+id/setting_navigation_menu_item"
+        android:icon="@mipmap/icon_setting"
+        android:title="@string/setting"/>
+</menu>

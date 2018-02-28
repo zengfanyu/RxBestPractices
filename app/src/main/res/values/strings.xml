@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">RxBestPractices</string>
+
+    <string name="my_github">Github</string>
+    <string name="about_me">关于作者</string>
+    <string name="thanks_for">感谢</string>
+    <string name="setting">设置</string>
+
+    <string name="header_image_url1">http://phandroid.s3.amazonaws.com/wp-content/uploads/2014/06/android_google_moutain_google_now_1920x1080_wallpaper_Wallpaper-HD_2560x1600_www.paperhi.com_-640x400.jpg</string>
+    <string name="header_image_url2">http://www.hdiphonewallpapers.us/phone–wallpapers/540x960–1/540x960-mobile-wallpapers-hd-2218x5ox3.jpg</string>
+    <string name="header_image_url3">http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg</string>
+    <string name="header_image_url4">http://www.tothemobile.com/wp-content/uploads/2014/07/original.jpg</string>
+
+    <string name="wechat_article">微信精选</string>
+    <string name="article_pre_day">每日一文</string>
+    <string name="look_video">开眼视频</string>
+    <string name="gank_article">热门干货</string>
+
+
 </resources>
