@@ -1,0 +1,24 @@
+package com.zfy.rxbestpractices.http.api;
+
+import com.zfy.rxbestpractices.http.bean.WeixinBean;
+
+import io.reactivex.Flowable;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
+
+/**
+ * @author: fanyuzeng on 2018/3/1 14:34
+ */
+public interface WeixinApi {
+    String HOST = "http://api.huceo.com/";
+    /**
+     * 微信数据
+     *
+     * @param key  秘钥
+     * @param num  请求个数
+     * @param page 页数
+     * @return
+     */
+    @GET("wxnew/")
+    Flowable<WeixinBean> getWeiXin(@Query("key") String key, @Query("num") int num, @Query("page") int page);
+}

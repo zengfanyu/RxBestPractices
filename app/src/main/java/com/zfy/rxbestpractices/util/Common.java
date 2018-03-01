@@ -1,4 +1,4 @@
-package com.zfy.rxbestpractices;
+package com.zfy.rxbestpractices.util;
 
 import android.content.Context;
 

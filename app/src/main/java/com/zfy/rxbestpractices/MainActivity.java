@@ -2,29 +2,33 @@ package com.zfy.rxbestpractices;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.zfy.rxbestpractices.base.BaseMVPActivity;
+import com.zfy.rxbestpractices.config.App;
+import com.zfy.rxbestpractices.contract.MainContract;
+import com.zfy.rxbestpractices.di.component.DaggerMainActivityComponent;
+import com.zfy.rxbestpractices.di.module.MainActivityModule;
+import com.zfy.rxbestpractices.presenter.MainPersenter;
+import com.zfy.rxbestpractices.util.Common;
+import com.zfy.rxbestpractices.weixin.WeixinFragment;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author: fanyuzeng on 2018/2/28 14:20
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseMVPActivity<MainPersenter> implements MainContract.View {
 
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
@@ -33,12 +37,9 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.nav_view)
     NavigationView mDrawerView;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
+    @Override
+    protected void initViews() {
         final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             setTitle("");
         }
 
+        initViewPager();
+//        mDrawerView.getMenu().getItem(0).setChecked(true);
         mDrawerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -78,13 +81,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        mPresenter.checkPermissions();
+    }
 
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void getPermissionSuccess() {
+
+    }
+
+    @Override
+    protected void initInject() {
+        DaggerMainActivityComponent.builder().appComponent(App.getAppComponent())
+                .mainActivityModule(new MainActivityModule(this))
+                .build().inject(this);
+    }
+
+
+    private void initViewPager() {
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 switch (position % 4) {
-                    //case 0:
-                    //    return RecyclerViewFragment.newInstance();
+                    case 0:
+                        return WeixinFragment.newInstance();
                     //case 1:
                     //    return RecyclerViewFragment.newInstance();
                     //case 2:
@@ -149,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -167,5 +190,10 @@ public class MainActivity extends AppCompatActivity {
 
     public String getResString(int stringRes) {
         return Common.mAppContext.getResources().getString(stringRes);
+    }
+
+    @Override
+    public void showPermissionDialog() {
+
     }
 }
