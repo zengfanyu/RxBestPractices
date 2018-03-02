@@ -2,7 +2,6 @@ package com.zfy.rxbestpractices;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -20,8 +19,8 @@ import com.zfy.rxbestpractices.contract.MainContract;
 import com.zfy.rxbestpractices.di.component.DaggerMainActivityComponent;
 import com.zfy.rxbestpractices.di.module.MainActivityModule;
 import com.zfy.rxbestpractices.presenter.MainPersenter;
-import com.zfy.rxbestpractices.util.Common;
-import com.zfy.rxbestpractices.weixin.WeixinFragment;
+import com.zfy.rxbestpractices.util.LogUtil;
+import com.zfy.rxbestpractices.weixin.WeChatFragment;
 
 import butterknife.BindView;
 
@@ -40,6 +39,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
 
     @Override
     protected void initViews() {
+        //ToolBar
         final Toolbar toolbar = mViewPager.getToolbar();
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -55,32 +55,28 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
             setTitle("");
         }
 
-        initViewPager();
-//        mDrawerView.getMenu().getItem(0).setChecked(true);
-        mDrawerView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.github_navigation_menu_item:
-                        //ignore
-                        break;
-                    case R.id.about_me_navigation_menu_item:
-                        AboutMeActivity.launchActivity(MainActivity.this);
-                        break;
-                    case R.id.thanks_navigation_menu_item:
-                        ThanksActivity.launchActivity(MainActivity.this);
-                        break;
-                    case R.id.setting_navigation_menu_item:
-                        SettingActivity.launchActivity(MainActivity.this);
-                        break;
-                    default:
-                        break;
-                }
-                mDrawerLayout.closeDrawers();
-                return true;
+        //DrawerVoiew
+        mDrawerView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.github_navigation_menu_item:
+                    //ignore
+                    break;
+                case R.id.about_me_navigation_menu_item:
+                    AboutMeActivity.launchActivity(MainActivity.this);
+                    break;
+                case R.id.thanks_navigation_menu_item:
+                    ThanksActivity.launchActivity(MainActivity.this);
+                    break;
+                case R.id.setting_navigation_menu_item:
+                    SettingActivity.launchActivity(MainActivity.this);
+                    break;
+                default:
+                    break;
             }
+            mDrawerLayout.closeDrawers();
+            return true;
         });
-
+        //获取权限
         mPresenter.checkPermissions();
     }
 
@@ -90,17 +86,35 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
     }
 
     @Override
-    public void getPermissionSuccess() {
-
+    public void showPermissionFailDialog() {
+        LogUtil.d(TAG, "showPermissionFailDialog");
+        showErrorTip("未申请到权限，请重新授权");
     }
 
     @Override
-    protected void initInject() {
-        DaggerMainActivityComponent.builder().appComponent(App.getAppComponent())
+    public void getPermissionSuccess() {
+        LogUtil.d(TAG, "getPermissionSuccess");
+        initViewPager();
+    }
+
+
+    @Override
+    protected void inject() {
+        DaggerMainActivityComponent
+                .builder()
+                .appComponent(App.getAppComponent())
                 .mainActivityModule(new MainActivityModule(this))
                 .build().inject(this);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void initViewPager() {
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
@@ -108,7 +122,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
             public Fragment getItem(int position) {
                 switch (position % 4) {
                     case 0:
-                        return WeixinFragment.newInstance();
+                        return WeChatFragment.newInstance();
                     //case 1:
                     //    return RecyclerViewFragment.newInstance();
                     //case 2:
@@ -127,7 +141,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
             public CharSequence getPageTitle(int position) {
                 switch (position % 4) {
                     case 0:
-                        return getResString(R.string.wechat_article);
+                        return getString(R.string.wechat_article);
                     case 1:
                         return getString(R.string.gank_article);
                     case 2:
@@ -141,45 +155,33 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
             }
         });
 
-        mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
-            @Override
-            public HeaderDesign getHeaderDesign(int page) {
-                switch (page) {
-                    case 0:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.green,
-                                getResString(R.string.header_image_url1));
-                    case 1:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.blue,
-                                getResString(R.string.header_image_url2));
-                    case 2:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.cyan,
-                                getResString(R.string.header_image_url3));
-                    case 3:
-                        return HeaderDesign.fromColorResAndUrl(
-                                R.color.red,
-                                getResString(R.string.header_image_url4));
-                    default:
-                        break;
-                }
-                //execute others actions if needed (ex : modify your header logo)
-                return null;
+        mViewPager.setMaterialViewPagerListener(page -> {
+            switch (page) {
+                case 0:
+                    return HeaderDesign.fromColorResAndUrl(
+                            R.color.green,
+                            getResString(R.string.header_image_url1));
+                case 1:
+                    return HeaderDesign.fromColorResAndUrl(
+                            R.color.blue,
+                            getResString(R.string.header_image_url2));
+                case 2:
+                    return HeaderDesign.fromColorResAndUrl(
+                            R.color.cyan,
+                            getResString(R.string.header_image_url3));
+                case 3:
+                    return HeaderDesign.fromColorResAndUrl(
+                            R.color.red,
+                            getResString(R.string.header_image_url4));
+                default:
+                    break;
             }
+            //execute others actions if needed (ex : modify your header logo)
+            return null;
         });
 
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            mDrawerLayout.openDrawer(GravityCompat.START);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public static void launchActivity(Activity activity) {
@@ -189,11 +191,6 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
     }
 
     public String getResString(int stringRes) {
-        return Common.mAppContext.getResources().getString(stringRes);
-    }
-
-    @Override
-    public void showPermissionDialog() {
-
+        return App.getInstance().getResources().getString(stringRes);
     }
 }

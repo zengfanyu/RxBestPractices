@@ -15,7 +15,7 @@
     <string name="article_pre_day">每日一文</string>
     <string name="look_video">开眼视频</string>
     <string name="gank_article">热门干货</string>
-    <string name="no_network">没有网络</string>
+    <string name="no_network">没有网络,请检查网络环境</string>
 
 
 </resources>

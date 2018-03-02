@@ -1,7 +1,5 @@
 package com.zfy.rxbestpractices.config;
 
-import com.zfy.rxbestpractices.util.Common;
-
 import java.io.File;
 
 /**
@@ -10,7 +8,7 @@ import java.io.File;
 public class Constants {
 
 
-    public static final String DATA_PATH = Common.mAppContext.getCacheDir().getAbsolutePath() + File.separator + "data";
+    public static final String DATA_PATH = App.getInstance().getCacheDir().getAbsolutePath() + File.separator + "data";
     public static final String NET_CACHE_PATH = DATA_PATH + "/netcache";
     public static final String LOG_CACHE_PATH = DATA_PATH + "/log";
     public static final String LOG_CACHE_FILE_NAME = "message_log.txt";

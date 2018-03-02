@@ -10,26 +10,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zfy.rxbestpractices.util.LogUtil;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 /**
  * Fragment 的基类<p>
- * 生命周期方法：onAttach()->onCreate()->onCreateView()->onViewCreated()
  *
  * @author: fanyuzeng on 2018/3/1 14:56
  */
 public abstract class BaseFragment extends Fragment {
-
+    protected final String TAG = "-" + this.getClass().getSimpleName() + "-";
     protected View mContentView;
     protected Context mContext;
     protected Activity mActivity;
     private Unbinder mBind;
-    private boolean isInited = false;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        LogUtil.d(TAG, "onAttach");
         mActivity = (Activity) context;
         mContext = context;
     }
@@ -37,30 +38,28 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        LogUtil.d(TAG, "onCreateView");
         mContentView = inflater.inflate(getContentLayoutRes(), null);
         mBind = ButterKnife.bind(this, mContentView);
-        isInited = true;
         initViews();
         return mContentView;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initData();
-
-    }
-
-    protected abstract void initData();
-
+    /**
+     * 获取Fragment布局的ID,由子类实现
+     *
+     * @return
+     */
     protected abstract int getContentLayoutRes();
 
+    /**
+     * 初始化布控件
+     */
     protected abstract void initViews();
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         mBind.unbind();
-
     }
 }

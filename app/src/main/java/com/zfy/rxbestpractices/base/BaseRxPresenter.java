@@ -1,16 +1,21 @@
 package com.zfy.rxbestpractices.base;
 
+import com.zfy.rxbestpractices.util.LogUtil;
+
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
+ * MVP 架构 Presenter 的基类， 对 RxJava 异步事件统一管理，防止内存泄漏
+ *
  * @author: fanyuzeng on 2018/3/1 14:30
  */
-public class RxPresenter<T extends IBaseView> implements IBasePresenter<T> {
+public class BaseRxPresenter<T extends IBaseView> implements IBasePresenter<T> {
+    protected String TAG = "-" + this.getClass().getSimpleName() + "-";
 
     protected T mView;
 
-    protected CompositeDisposable mCompositeDisposable;
+    private CompositeDisposable mCompositeDisposable;
 
     /**
      * 订阅事件
@@ -18,6 +23,7 @@ public class RxPresenter<T extends IBaseView> implements IBasePresenter<T> {
      * @param
      */
     protected void addSubscribe(Disposable disposable) {
+        LogUtil.d(TAG, "addSubscribe");
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
@@ -25,9 +31,10 @@ public class RxPresenter<T extends IBaseView> implements IBasePresenter<T> {
     }
 
     /**
-     * 取消所有订阅
+     * 取消所有订阅，防止内存泄漏
      */
     protected void unSubscribe() {
+        LogUtil.d(TAG, "unSubscribe");
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();
         }

@@ -1,11 +1,11 @@
 package com.zfy.rxbestpractices.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.zfy.rxbestpractices.util.ActivityUtil;
+import com.zfy.rxbestpractices.util.LogUtil;
 
 import butterknife.ButterKnife;
 
@@ -15,16 +15,15 @@ import butterknife.ButterKnife;
  * @author: fanyuzeng on 2018/3/1 10:23
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
-    private Activity mActivity;
+    protected String TAG = "-" + this.getClass().getSimpleName() + "-";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.d(TAG, "onCreate");
         setContentView(getContentViewId());
         ButterKnife.bind(this);
         ActivityUtil.getInstance().pushActivity(this);
-        mActivity = this;
         onViewCreated();
         setTitle("");
         initViews();
@@ -44,11 +43,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public abstract int getContentViewId();
 
     /**
-     * 视图树创建完成，onCreate方法中调用
+     * ButterKnife.bind 之后，initViews 之前
      */
-    protected void onViewCreated() {
-
-    }
+    protected abstract void onViewCreated() ;
 
     @Override
     protected void onDestroy() {

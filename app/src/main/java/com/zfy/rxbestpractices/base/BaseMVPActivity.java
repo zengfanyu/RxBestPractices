@@ -2,6 +2,7 @@ package com.zfy.rxbestpractices.base;
 
 import android.view.ViewGroup;
 
+import com.zfy.rxbestpractices.util.LogUtil;
 import com.zfy.rxbestpractices.util.SnackBarUtil;
 
 import javax.inject.Inject;
@@ -19,21 +20,15 @@ public abstract class BaseMVPActivity<T extends IBasePresenter> extends BaseActi
     /**
      * Dagger 注入
      */
-    protected abstract void initInject();
+    protected abstract void inject();
 
     @Override
     protected void onViewCreated() {
-        super.onViewCreated();
-        initInject();
+        LogUtil.d(TAG, "onViewCreated");
+        inject();
         if (mPresenter != null) {
             mPresenter.takeView(this);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
     }
 
     @Override
@@ -45,18 +40,21 @@ public abstract class BaseMVPActivity<T extends IBasePresenter> extends BaseActi
     }
 
     @Override
-    public void showMsg(String msg) {
+    public void showMsgTip(String msg) {
+        LogUtil.d(TAG, "showMsgTip");
         SnackBarUtil.ShortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.INFO).show();
     }
 
     @Override
-    public void showError(String msg) {
+    public void showErrorTip(String msg) {
+        LogUtil.d(TAG, "showErrorTip");
         SnackBarUtil.ShortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR);
 
     }
 
     @Override
-    public void showEmptyView(int viewLayoutId) {
+    public void showErrorView(int viewLayoutId) {
+        LogUtil.d(TAG, "showErrorView");
 
     }
 

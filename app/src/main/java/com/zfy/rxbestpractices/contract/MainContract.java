@@ -12,7 +12,7 @@ public interface MainContract {
         /**
          * 未获取权限，弹出提示框
          */
-        void showPermissionDialog();
+        void showPermissionFailDialog();
 
         /**
          * 获取权限成功

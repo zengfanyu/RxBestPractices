@@ -9,22 +9,20 @@ import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDeco
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.base.BaseMVPFragment;
 import com.zfy.rxbestpractices.config.App;
-import com.zfy.rxbestpractices.contract.WeixinContract;
+import com.zfy.rxbestpractices.contract.WeChatContract;
 import com.zfy.rxbestpractices.di.component.DaggerWeixinFragmentComponent;
 import com.zfy.rxbestpractices.di.module.WeixinFragmentModule;
 import com.zfy.rxbestpractices.http.bean.WeixinBean;
-import com.zfy.rxbestpractices.presenter.WeixinPresenter;
+import com.zfy.rxbestpractices.presenter.WeChatPresenter;
 import com.zfy.rxbestpractices.util.LogUtil;
-import com.zfy.rxbestpractices.util.SnackBarUtil;
 
 import butterknife.BindView;
 
 /**
  * @author: fanyuzeng on 2018/3/1 15:35
  */
-public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements WeixinContract.View,
+public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements WeChatContract.View,
         SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
-    private static final String TAG = "==WeixinFragment==";
     @BindView(R.id.id_recyclerView)
     RecyclerView mRecyclerView;
     @BindView(R.id.id_swipe_refresh_layout)
@@ -33,15 +31,17 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
     private int mPageIndex = 1;
     private static final int PAGE_SIZE = 16;
 
-    private WeixinAdapter mAdapter;
+    private WeCahtAdapter mAdapter;
 
-    public static WeixinFragment newInstance() {
-        return new WeixinFragment();
+    private boolean isDataRefresh = false;
+
+    public static WeChatFragment newInstance() {
+        return new WeChatFragment();
     }
 
     @Override
     protected void initData() {
-        mPresenter.getWeixinData(PAGE_SIZE, mPageIndex);
+        mPresenter.getWeChatData(PAGE_SIZE, mPageIndex);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
     }
 
     @Override
-    protected void initInject() {
+    protected void inject() {
         DaggerWeixinFragmentComponent
                 .builder()
                 .appComponent(App.getAppComponent())
@@ -65,19 +65,19 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
         mSwipeLayout.setRefreshing(true);
         mSwipeLayout.setOnRefreshListener(this);
 
-        mAdapter = new WeixinAdapter(R.layout.item_weixin);
+        mAdapter = new WeCahtAdapter(R.layout.item_weixin);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
-            SnackBarUtil.ShortSnackbar(mRecyclerView, "item " + position + " clicked", SnackBarUtil.INFO);
+           LogUtil.d(TAG, "item "+ position+" clicked!");
         });
     }
 
     @Override
-    public void showWeixinData(WeixinBean result) {
+    public void showWeCahtData(WeixinBean result) {
         if (mSwipeLayout != null && mSwipeLayout.isRefreshing()) {
             mSwipeLayout.setRefreshing(false);
             mAdapter.setEnableLoadMore(true);
@@ -87,11 +87,17 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
             mSwipeLayout.setEnabled(true);
         }
 
+
         if (mPageIndex == 1) {
+            //刷新
             mAdapter.setNewData(result.getNewslist());
-            LogUtil.d(TAG,"刷新成功" );
-            showMsg("刷新成功");
+            LogUtil.d(TAG, "刷新成功");
+            if (isDataRefresh) {
+                showMsgTip("刷新成功");
+                isDataRefresh = false;
+            }
         } else {
+            //加载更多
             mAdapter.addData(result.getNewslist());
         }
         if (result.getNewslist().size() == PAGE_SIZE) {
@@ -102,12 +108,12 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
     }
 
     @Override
-    public void getDataFail() {
+    public void getDataFail(String msg) {
         mAdapter.loadMoreFail();
         mSwipeLayout.setEnabled(true);
         mSwipeLayout.setRefreshing(false);
-        showError("load failed");
-        showEmptyView(R.layout.empty_view);
+//        showErrorTip(msg);
+        showErrorView(R.layout.empty_view);
     }
 
 
@@ -115,7 +121,8 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
     public void onRefresh() {
         // TODO(ZFY): 2018/3/1 swipe
         mPageIndex = 1;
-        mPresenter.getWeixinData(PAGE_SIZE, mPageIndex);
+        mPresenter.getWeChatData(PAGE_SIZE, mPageIndex);
+        isDataRefresh = true;
         //防止下拉刷新的时候还可以上拉加载
         mAdapter.setEnableLoadMore(false);
     }
@@ -124,7 +131,7 @@ public class WeixinFragment extends BaseMVPFragment<WeixinPresenter> implements 
     public void onLoadMoreRequested() {
         // TODO(ZFY): 2018/3/1 quickAdapter
         mPageIndex++;
-        mPresenter.getWeixinData(PAGE_SIZE, mPageIndex);
+        mPresenter.getWeChatData(PAGE_SIZE, mPageIndex);
         //防止上拉加载的时候还可以刷新
         mSwipeLayout.setEnabled(false);
     }

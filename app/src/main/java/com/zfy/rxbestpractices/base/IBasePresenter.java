@@ -6,14 +6,14 @@ package com.zfy.rxbestpractices.base;
 public interface IBasePresenter<T extends IBaseView> {
 
     /**
-     * Binds presenter with a view when resumed. The Presenter will perform initialization here.
+     * 将View绑定至Presenter的方法
      *
      * @param view the view associated with this presenter
      */
     void takeView(T view);
 
     /**
-     * Drops the reference to the view when destroyed
+     * 解除 V 和 P 的绑定更关系，
      */
     void dropView();
 

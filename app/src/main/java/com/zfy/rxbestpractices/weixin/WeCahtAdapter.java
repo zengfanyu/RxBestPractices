@@ -10,18 +10,20 @@ import com.zfy.rxbestpractices.util.ImageLoader;
 import com.zfy.rxbestpractices.util.NetworkUtil;
 
 /**
+ * 微信精选页面 RecyclerView 的 Adapter
+ *
  * @author: fanyuzeng on 2018/3/1 15:36
  */
-public class WeixinAdapter extends BaseQuickAdapter<WeixinBean.NewslistBean, BaseViewHolder> {
+public class WeCahtAdapter extends BaseQuickAdapter<WeixinBean.NewslistBean, BaseViewHolder> {
 
-    public WeixinAdapter(int item_view_res) {
-        super(item_view_res);
+    public WeCahtAdapter(int itemViewLayoutId) {
+        super(itemViewLayoutId);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, WeixinBean.NewslistBean item) {
         helper.setText(R.id.id_author, item.getDescription());
-        helper.setText(R.id.id_title,item.getTitle());
+        helper.setText(R.id.id_title, item.getTitle());
         if (NetworkUtil.isNetworkConnected(mContext)) {
             ImageLoader.loadAll(mContext, item.getPicUrl(), (ImageView) helper.getView(R.id.id_image));
         } else {

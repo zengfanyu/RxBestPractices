@@ -12,6 +12,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 /**
+ * 为整个App提供单例类的实例
+ *
  * @author: fanyuzeng on 2018/3/1 12:04
  */
 @Singleton

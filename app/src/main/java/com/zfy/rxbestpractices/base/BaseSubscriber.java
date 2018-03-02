@@ -1,8 +1,6 @@
 package com.zfy.rxbestpractices.base;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.util.LogUtil;
@@ -19,8 +17,6 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
 
     private IBaseView mBaseView;
 
-    private Handler mHandler = new android.os.Handler(Looper.getMainLooper());
-
     public BaseSubscriber(Context context, IBaseView mBaseView) {
         this.mContext = context;
         this.mBaseView = mBaseView;
@@ -31,18 +27,17 @@ public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
         super.onStart();
         LogUtil.d(TAG, "onStart");
         if (!NetworkUtil.isNetworkConnected(mContext)) {
-            mHandler.postDelayed(() -> {
-                mBaseView.showError(mContext.getString(R.string.no_network));
-            }, 1000);
+            LogUtil.d(TAG, "onStart no net");
+            mBaseView.showErrorTip(mContext.getString(R.string.no_network));
             onComplete();
-            return;
         }
+        // TODO(ZFY): 2018/3/2 有网络情况下做其他操作
     }
 
     @Override
     public void onError(Throwable t) {
         LogUtil.e(TAG, "onError:" + t);
-        mBaseView.showError(t.getMessage());
+//        mBaseView.showErrorTip(t.getMessage());
     }
 
     @Override

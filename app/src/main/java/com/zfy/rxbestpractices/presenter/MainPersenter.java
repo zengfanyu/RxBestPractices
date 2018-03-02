@@ -3,8 +3,9 @@ package com.zfy.rxbestpractices.presenter;
 import android.Manifest;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.zfy.rxbestpractices.base.RxPresenter;
+import com.zfy.rxbestpractices.base.BaseRxPresenter;
 import com.zfy.rxbestpractices.contract.MainContract;
+import com.zfy.rxbestpractices.util.LogUtil;
 
 import javax.inject.Inject;
 
@@ -13,7 +14,7 @@ import io.reactivex.functions.Consumer;
 /**
  * @author: fanyuzeng on 2018/3/1 17:19
  */
-public class MainPersenter extends RxPresenter<MainContract.View> implements MainContract.Presenter {
+public class MainPersenter extends BaseRxPresenter<MainContract.View> implements MainContract.Presenter {
     private RxPermissions rxPermissions;
 
     @Inject
@@ -31,6 +32,7 @@ public class MainPersenter extends RxPresenter<MainContract.View> implements Mai
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
+                        LogUtil.d(TAG, "accept aBoolean="+aBoolean);
                         // 当所有权限都允许之后，返回true
                         if (aBoolean) {
                             mView.getPermissionSuccess();
@@ -38,7 +40,7 @@ public class MainPersenter extends RxPresenter<MainContract.View> implements Mai
                         // 只要有一个权限禁止，返回false，
                         // 下一次申请只申请没通过申请的权限
                         else {
-                            mView.showPermissionDialog();
+                            mView.showPermissionFailDialog();
                         }
                     }
                 }));

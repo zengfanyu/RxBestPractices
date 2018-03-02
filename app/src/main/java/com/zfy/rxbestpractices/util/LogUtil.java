@@ -67,7 +67,7 @@ public class LogUtil {
     public static void d(String tag, String msg) {
         if (mEnableLog) {
             if (mDebug) {
-                Log.d(TAG, tag + getTag() + " " + msg);
+                Log.d(TAG, tag + " " + getTag() + " " + msg);
             } else {
                 Log.d(tag, msg);
             }
@@ -93,7 +93,7 @@ public class LogUtil {
     public static void i(String tag, String msg) {
         if (mEnableLog) {
             if (mDebug) {
-                Log.i(TAG, tag + getTag() + " " + msg);
+                Log.i(TAG, tag + " " + getTag() + " " + msg);
             } else {
                 Log.i(tag, msg);
             }

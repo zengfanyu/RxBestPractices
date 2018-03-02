@@ -6,7 +6,6 @@ import com.zfy.rxbestpractices.di.component.AppComponent;
 import com.zfy.rxbestpractices.di.component.DaggerAppComponent;
 import com.zfy.rxbestpractices.di.module.AppModule;
 import com.zfy.rxbestpractices.di.module.HttpModule;
-import com.zfy.rxbestpractices.util.Common;
 
 /**
  * @author: fanyuzeng on 2018/2/28 16:16
@@ -19,7 +18,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Common.mAppContext = this;
         sInstance=this;
         mAppComponent = DaggerAppComponent
                 .builder()

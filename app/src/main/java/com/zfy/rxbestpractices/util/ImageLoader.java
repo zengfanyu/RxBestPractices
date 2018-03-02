@@ -8,7 +8,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.config.GlideApp;
 
-
+/**
+ * 图片加载类，内部使用 Glide v4
+ */
 public class ImageLoader {
 
     public static void loadDefault(Context context, ImageView imageView) {
