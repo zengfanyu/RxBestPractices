@@ -1,6 +1,7 @@
 package com.zfy.rxbestpractices.weixin;
 
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
     SwipeRefreshLayout mSwipeLayout;
 
     private int mPageIndex = 1;
-    private static final int PAGE_SIZE = 16;
+    private static final int PAGE_SIZE = 8;
 
     private WeCahtAdapter mAdapter;
 
@@ -70,14 +71,16 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mAdapter.setOnItemChildClickListener((adapter, view, position) -> {
+        mAdapter.setOnItemClickListener((adapter, view, position) -> {
            LogUtil.d(TAG, "item "+ position+" clicked!");
         });
     }
 
     @Override
     public void showWeCahtData(WeixinBean result) {
+        LogUtil.d(TAG, "showWeCahtData");
         if (mSwipeLayout != null && mSwipeLayout.isRefreshing()) {
             mSwipeLayout.setRefreshing(false);
             mAdapter.setEnableLoadMore(true);
@@ -129,6 +132,7 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
 
     @Override
     public void onLoadMoreRequested() {
+        LogUtil.d(TAG, "onLoadMoreRequested pageIndex="+mPageIndex);
         // TODO(ZFY): 2018/3/1 quickAdapter
         mPageIndex++;
         mPresenter.getWeChatData(PAGE_SIZE, mPageIndex);

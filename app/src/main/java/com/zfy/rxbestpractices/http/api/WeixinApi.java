@@ -15,10 +15,10 @@ public interface WeixinApi {
      * 微信数据
      *
      * @param key  秘钥
-     * @param num  请求个数
-     * @param page 页数
+     * @param pageSize  请求个数
+     * @param pageIndex 页数
      * @return
      */
     @GET("wxnew/")
-    Flowable<WeixinBean> getWeiXin(@Query("key") String key, @Query("num") int num, @Query("page") int page);
+    Flowable<WeixinBean> getWeiXin(@Query("key") String key, @Query("num") int pageSize, @Query("page") int pageIndex);
 }

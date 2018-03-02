@@ -30,7 +30,7 @@ public class WeChatPresenter extends BaseRxPresenter<WeChatContract.View> implem
 
     @Override
     public void getWeChatData(int pageSize, int pageIndex) {
-        LogUtil.d(TAG, "getWeChatData mView:"+mView);
+        LogUtil.d(TAG, "getWeChatData ");
         addSubscribe(mWeixinApi.getWeiXin(Constants.WEIXIN_API_KEY, pageSize, pageIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
