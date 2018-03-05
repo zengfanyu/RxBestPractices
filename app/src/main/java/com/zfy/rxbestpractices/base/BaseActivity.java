@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import com.zfy.rxbestpractices.util.ActivityUtil;
 import com.zfy.rxbestpractices.util.LogUtil;
@@ -48,8 +49,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * ButterKnife.bind 之后，initViews 之前
      */
-    protected abstract void onViewCreated() ;
+    protected  void onViewCreated(){
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -12,7 +12,7 @@ import io.reactivex.subscribers.ResourceSubscriber;
  * @author: fanyuzeng on 2018/3/1 17:01
  */
 public abstract class BaseSubscriber<T> extends ResourceSubscriber<T> {
-    private static final String TAG = "==BaseSubscriber==";
+    private static final String TAG = "-BaseSubscriber-";
     private Context mContext;
 
     private IBaseView mBaseView;

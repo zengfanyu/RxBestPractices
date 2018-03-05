@@ -10,12 +10,14 @@ import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDeco
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.base.BaseMVPFragment;
 import com.zfy.rxbestpractices.config.App;
+import com.zfy.rxbestpractices.config.Constants;
 import com.zfy.rxbestpractices.contract.WeChatContract;
 import com.zfy.rxbestpractices.di.component.DaggerWeixinFragmentComponent;
 import com.zfy.rxbestpractices.di.module.WeixinFragmentModule;
 import com.zfy.rxbestpractices.http.bean.WeixinBean;
 import com.zfy.rxbestpractices.presenter.WeChatPresenter;
 import com.zfy.rxbestpractices.util.LogUtil;
+import com.zfy.rxbestpractices.web.WebActivity;
 
 import butterknife.BindView;
 
@@ -74,7 +76,16 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mAdapter.setOnLoadMoreListener(this, mRecyclerView);
         mAdapter.setOnItemClickListener((adapter, view, position) -> {
-           LogUtil.d(TAG, "item "+ position+" clicked!");
+            LogUtil.d(TAG, "item " + position + " clicked!");
+            WeixinBean.NewslistBean newslistBean = (WeixinBean.NewslistBean) adapter.getData().get(position);
+            WebActivity.launchActivity(mContext,
+                    new WebActivity.Builder()
+                            .setDataType(Constants.TYPE_WECHAT)
+                            .setGuid(newslistBean.getUrl())
+                            .setImgUrl(newslistBean.getPicUrl())
+                            .setShowLikeIcon(true)
+                            .setTitle(newslistBean.getTitle())
+                            .setUrl(newslistBean.getUrl()));
         });
     }
 
@@ -132,7 +143,7 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
 
     @Override
     public void onLoadMoreRequested() {
-        LogUtil.d(TAG, "onLoadMoreRequested pageIndex="+mPageIndex);
+        LogUtil.d(TAG, "onLoadMoreRequested pageIndex=" + mPageIndex);
         // TODO(ZFY): 2018/3/1 quickAdapter
         mPageIndex++;
         mPresenter.getWeChatData(PAGE_SIZE, mPageIndex);

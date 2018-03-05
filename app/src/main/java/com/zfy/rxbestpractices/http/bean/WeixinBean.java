@@ -1,11 +1,12 @@
 package com.zfy.rxbestpractices.http.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author: fanyuzeng on 2018/3/1 14:53
  */
-public class WeixinBean {
+public class WeixinBean implements Serializable {
 
     /**
      * code : 200
@@ -41,7 +42,7 @@ public class WeixinBean {
         this.newslist = newslist;
     }
 
-    public static class NewslistBean {
+    public static class NewslistBean implements Serializable {
         /**
          * ctime : 2018-03-01
          * title : 3月新一轮流感爆发？专家怎么说？这样做可以预防流感！

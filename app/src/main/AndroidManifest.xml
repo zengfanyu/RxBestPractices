@@ -16,7 +16,8 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.SET_WALLPAPER" />
-
+    <!-- 硬件加速对X5视频播放非常重要，建议开启 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <application
         android:name=".config.App"
         android:allowBackup="true"
@@ -46,6 +47,10 @@
         </activity>
 
         <activity android:name=".SettingActivity">
+
+        </activity>
+
+        <activity android:name=".web.WebActivity">
 
         </activity>
     </application>

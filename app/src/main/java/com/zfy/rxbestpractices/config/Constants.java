@@ -18,4 +18,7 @@ public class Constants {
      * https://www.tianapi.com/#wxnew
      */
     public static final String WEIXIN_API_KEY = "a2873ef1d3dc60e2e17ee98a0537fb8f";
+
+
+    public static final int TYPE_WECHAT = 1;
 }
