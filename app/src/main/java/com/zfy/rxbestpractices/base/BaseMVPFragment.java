@@ -55,14 +55,14 @@ public abstract class BaseMVPFragment<T extends IBasePresenter> extends BaseFrag
     @Override
     public void showMsgTip(String msg) {
         LogUtil.d(TAG, "showMsgTip");
-        SnackBarUtil.ShortSnackbar(((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.INFO).show();
+        SnackBarUtil.shortSnackbar(((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.INFO).show();
 
     }
 
     @Override
     public void showErrorTip(String msg) {
         LogUtil.d(TAG, "showErrorTip");
-        SnackBarUtil.ShortSnackbar(((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR).show();
+        SnackBarUtil.shortSnackbar(((ViewGroup) mActivity.findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR).show();
 
     }
 

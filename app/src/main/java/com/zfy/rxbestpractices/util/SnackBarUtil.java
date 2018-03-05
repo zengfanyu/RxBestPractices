@@ -33,7 +33,7 @@ public class SnackBarUtil {
      * @param backgroundColor
      * @return
      */
-    public static Snackbar ShortSnackbar(View view, String message, int messageColor, int backgroundColor) {
+    public static Snackbar shortSnackbar(View view, String message, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         setSnackBarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -48,7 +48,7 @@ public class SnackBarUtil {
      * @param backgroundColor
      * @return
      */
-    public static Snackbar LongSnackbar(View view, String message, int messageColor, int backgroundColor) {
+    public static Snackbar longSnackbar(View view, String message, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         setSnackBarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -63,7 +63,7 @@ public class SnackBarUtil {
      * @param backgroundColor
      * @return
      */
-    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int messageColor, int backgroundColor) {
+    public static Snackbar indefiniteSnackbar(View view, String message, int duration, int messageColor, int backgroundColor) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration);
         setSnackBarColor(snackbar, messageColor, backgroundColor);
         return snackbar;
@@ -77,7 +77,7 @@ public class SnackBarUtil {
      * @param type
      * @return
      */
-    public static Snackbar ShortSnackbar(View view, String message, int type) {
+    public static Snackbar shortSnackbar(View view, String message, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
         switchType(snackbar, type);
         return snackbar;
@@ -91,7 +91,7 @@ public class SnackBarUtil {
      * @param type
      * @return
      */
-    public static Snackbar LongSnackbar(View view, String message, int type) {
+    public static Snackbar longSnackbar(View view, String message, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         switchType(snackbar, type);
         return snackbar;
@@ -105,15 +105,30 @@ public class SnackBarUtil {
      * @param type
      * @return
      */
-    public static Snackbar IndefiniteSnackbar(View view, String message, int duration, int type) {
+    public static Snackbar indefiniteSnackbar(View view, String message, int duration, int type) {
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE).setDuration(duration);
         switchType(snackbar, type);
         return snackbar;
     }
 
+    /**
+     * 带监听回调的短显示 SnackBar
+     *
+     * @param view
+     * @param message
+     * @param type
+     * @param listener
+     */
+    public static Snackbar shortActionSnackBar(View view, String message, int type, View.OnClickListener listener) {
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
+                .setAction("", listener);
+        switchType(snackbar, type);
+        return snackbar;
+    }
 
     /**
      * 选择预设类型
+     *
      * @param snackbar
      * @param type
      */

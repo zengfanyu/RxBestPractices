@@ -1,6 +1,8 @@
 package com.zfy.rxbestpractices.base;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
@@ -16,6 +18,7 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     protected String TAG = "-" + this.getClass().getSimpleName() + "-";
+    protected Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

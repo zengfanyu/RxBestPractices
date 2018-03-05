@@ -42,13 +42,13 @@ public abstract class BaseMVPActivity<T extends IBasePresenter> extends BaseActi
     @Override
     public void showMsgTip(String msg) {
         LogUtil.d(TAG, "showMsgTip");
-        SnackBarUtil.ShortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.INFO).show();
+        SnackBarUtil.shortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.INFO).show();
     }
 
     @Override
     public void showErrorTip(String msg) {
         LogUtil.d(TAG, "showErrorTip");
-        SnackBarUtil.ShortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR);
+        SnackBarUtil.shortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR).show();
 
     }
 
