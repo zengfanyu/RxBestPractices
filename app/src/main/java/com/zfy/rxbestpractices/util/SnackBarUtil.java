@@ -84,6 +84,21 @@ public class SnackBarUtil {
     }
 
     /**
+     * 短显示SnackBar，可选预设类型
+     *
+     * @param view
+     * @param messageRes
+     * @param type
+     * @return
+     */
+    public static Snackbar shortSnackbar(View view, int messageRes, int type) {
+        String message=view.getContext().getResources().getString(messageRes);
+        Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT);
+        switchType(snackbar, type);
+        return snackbar;
+    }
+
+    /**
      * 长显示Snackbar，可选预设类型
      *
      * @param view

@@ -1,8 +1,11 @@
 package com.zfy.rxbestpractices.web;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +22,11 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.base.BaseActivity;
+import com.zfy.rxbestpractices.config.App;
+import com.zfy.rxbestpractices.db.GreenDaoManager;
+import com.zfy.rxbestpractices.db.bean.LikeBean;
 import com.zfy.rxbestpractices.util.LogUtil;
+import com.zfy.rxbestpractices.util.SnackBarUtil;
 import com.zfy.rxbestpractices.widget.X5WebView;
 
 import java.io.Serializable;
@@ -45,12 +52,16 @@ public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     private boolean mShowLikeIcon;
     private String mTitle;
     private String mUrl;
-
+    private MenuItem mMenuLikeItem;
+    private boolean mLike = false;
+    private GreenDaoManager mDaoManager;
 
     @Override
     protected void initViews() {
 
         LogUtil.d(TAG, "initViews");
+
+        mDaoManager = App.getAppComponent().getGreenDaoManager();
         //ToolBar
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -146,7 +157,7 @@ public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
         });
 
         mWebView.setOnScrollChangeListener((l, t, oldl, oldt) -> {
-            LogUtil.d(TAG, "WebView onScroll t=" + t);
+//            LogUtil.d(TAG, "WebView onScroll t=" + t);
             if (t == 0) {
                 //WebView 在顶部，此时允许 swipe 刷新
                 mSwipeLayout.setEnabled(true);
@@ -180,12 +191,59 @@ public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        if (mShowLikeIcon) {
+            getMenuInflater().inflate(R.menu.menu_web_with_like, menu);
+            mMenuLikeItem = menu.findItem(R.id.menu_item_like);
+            showLikeIconState(mDaoManager.queryByGid(mGuid));
+        } else {
+            getMenuInflater().inflate(R.menu.menu_web_without_like, menu);
+        }
+        return true;
+    }
+
+    private void showLikeIconState(boolean hasLiked) {
+        if (hasLiked) {
+            mMenuLikeItem.setIcon(R.mipmap.icon_like_choosen);
+            mLike = true;
+        } else {
+            mMenuLikeItem.setIcon(R.mipmap.icon_like_default);
+            mLike = false;
+        }
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_like:
+                if (!mLike) {
+                    mLike = true;
+                    mMenuLikeItem.setIcon(R.mipmap.icon_like_choosen);
+                    LikeBean likeBean = new LikeBean(null, mGuid, mImgUrl, mTitle, mUrl, mDataType, System.currentTimeMillis());
+                    mDaoManager.insert(likeBean);
+                    SnackBarUtil.shortSnackbar(mWebView,R.string.like_success,SnackBarUtil.CONFIRM).show();
+                } else {
+                    mLike = false;
+                    mMenuLikeItem.setIcon(R.mipmap.icon_like_default);
+                    mDaoManager.deleteByGid(mGuid);
+                    SnackBarUtil.shortSnackbar(mWebView,R.string.remove_like_success,SnackBarUtil.CONFIRM).show();
+                }
+                break;
+            case R.id.menu_item_copy:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm != null) {
+                    cm.setPrimaryClip(ClipData.newPlainText(null, mUrl));
+                    SnackBarUtil.shortSnackbar(mWebView, R.string.copy_success, SnackBarUtil.CONFIRM).show();
+                }
+                break;
+            case R.id.menu_item_brower:
+                Uri uri = Uri.parse(mUrl);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

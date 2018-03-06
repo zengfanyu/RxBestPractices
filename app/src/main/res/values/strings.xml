@@ -16,6 +16,12 @@
     <string name="look_video">开眼视频</string>
     <string name="gank_article">热门干货</string>
     <string name="no_network">没有网络,请检查网络环境</string>
+    <string name="like">喜欢</string>
+    <string name="copy_url">复制链接</string>
+    <string name="open_in_brower">在浏览器中打开</string>
+    <string name="copy_success">已复制链接到剪切板</string>
+    <string name="like_success">收藏成功</string>
+    <string name="remove_like_success">取消收藏</string>
 
 
 </resources>

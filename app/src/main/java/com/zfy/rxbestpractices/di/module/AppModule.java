@@ -3,6 +3,7 @@ package com.zfy.rxbestpractices.di.module;
 import android.content.Context;
 
 import com.zfy.rxbestpractices.config.App;
+import com.zfy.rxbestpractices.db.GreenDaoManager;
 
 import javax.inject.Singleton;
 
@@ -24,5 +25,11 @@ public class AppModule {
     @Singleton
     Context provideContext() {
         return application;
+    }
+
+    @Provides
+    @Singleton
+    GreenDaoManager provideGreenDaoManager(Context context) {
+        return new GreenDaoManager(context);
     }
 }

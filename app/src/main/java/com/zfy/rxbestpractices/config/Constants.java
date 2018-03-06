@@ -21,4 +21,9 @@ public class Constants {
 
 
     public static final int TYPE_WECHAT = 1;
+
+
+    public static final String DB_PASSWIRD = "123456";
+
+    public static final int HTTP_OK = 200;
 }

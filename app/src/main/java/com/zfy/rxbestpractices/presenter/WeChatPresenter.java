@@ -38,7 +38,7 @@ public class WeChatPresenter extends BaseRxPresenter<WeChatContract.View> implem
                     @Override
                     public void onNext(WeixinBean weiXinBean) {
                         LogUtil.d(TAG, "onNext result:"+weiXinBean.toString());
-                        if (weiXinBean.getCode()==200) {
+                        if (weiXinBean.getCode()==Constants.HTTP_OK) {
                             mView.showWeCahtData(weiXinBean);
                         }else {
                             mView.getDataFail("response code:"+weiXinBean.getCode()+" response msg:"+weiXinBean.getMsg());
