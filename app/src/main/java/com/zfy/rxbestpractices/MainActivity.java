@@ -20,10 +20,11 @@ import com.zfy.rxbestpractices.contract.MainContract;
 import com.zfy.rxbestpractices.di.component.DaggerMainActivityComponent;
 import com.zfy.rxbestpractices.di.module.MainActivityModule;
 import com.zfy.rxbestpractices.presenter.MainPersenter;
+import com.zfy.rxbestpractices.ui.ng.NGFragment;
 import com.zfy.rxbestpractices.util.ActivityUtil;
 import com.zfy.rxbestpractices.util.LogUtil;
 import com.zfy.rxbestpractices.util.SnackBarUtil;
-import com.zfy.rxbestpractices.weixin.WeChatFragment;
+import com.zfy.rxbestpractices.ui.wechat.WeChatFragment;
 
 import butterknife.BindView;
 
@@ -38,7 +39,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mDrawerView;
-    
+
     private boolean mAppExit = false;
 
 
@@ -130,8 +131,8 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
                 switch (position % 4) {
                     case 0:
                         return WeChatFragment.newInstance();
-                    //case 1:
-                    //    return RecyclerViewFragment.newInstance();
+                    case 1:
+                        return NGFragment.newInstance();
                     //case 2:
                     //    return WebViewFragment.newInstance();
                     default:
@@ -150,7 +151,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
                     case 0:
                         return getString(R.string.wechat_article);
                     case 1:
-                        return getString(R.string.gank_article);
+                        return getString(R.string.national_geographic);
                     case 2:
                         return getString(R.string.look_video);
                     case 3:
@@ -170,7 +171,7 @@ public class MainActivity extends BaseMVPActivity<MainPersenter> implements Main
                             getResString(R.string.header_image_url1));
                 case 1:
                     return HeaderDesign.fromColorResAndUrl(
-                            R.color.blue,
+                            R.color.black,
                             getResString(R.string.header_image_url2));
                 case 2:
                     return HeaderDesign.fromColorResAndUrl(

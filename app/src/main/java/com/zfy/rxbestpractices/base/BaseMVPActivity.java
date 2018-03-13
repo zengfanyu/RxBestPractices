@@ -46,6 +46,11 @@ public abstract class BaseMVPActivity<T extends IBasePresenter> extends BaseActi
     }
 
     @Override
+    public void showMsgTip(String msg, int messageColor, int backgroundColor) {
+        SnackBarUtil.shortSnackbar(((ViewGroup)findViewById(android.R.id.content)).getChildAt(0),msg,messageColor,backgroundColor);
+    }
+
+    @Override
     public void showErrorTip(String msg) {
         LogUtil.d(TAG, "showErrorTip");
         SnackBarUtil.shortSnackbar(((ViewGroup) findViewById(android.R.id.content)).getChildAt(0), msg, SnackBarUtil.ERROR).show();

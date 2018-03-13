@@ -2,7 +2,7 @@ package com.zfy.rxbestpractices.di.component;
 
 import com.zfy.rxbestpractices.di.module.WeixinFragmentModule;
 import com.zfy.rxbestpractices.di.scope.FragmentScope;
-import com.zfy.rxbestpractices.weixin.WeChatFragment;
+import com.zfy.rxbestpractices.ui.wechat.WeChatFragment;
 
 import dagger.Component;
 

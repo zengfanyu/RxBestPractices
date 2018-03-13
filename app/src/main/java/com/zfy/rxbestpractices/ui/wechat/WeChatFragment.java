@@ -1,4 +1,4 @@
-package com.zfy.rxbestpractices.weixin;
+package com.zfy.rxbestpractices.ui.wechat;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,7 +17,7 @@ import com.zfy.rxbestpractices.di.module.WeixinFragmentModule;
 import com.zfy.rxbestpractices.http.bean.WeixinBean;
 import com.zfy.rxbestpractices.presenter.WeChatPresenter;
 import com.zfy.rxbestpractices.util.LogUtil;
-import com.zfy.rxbestpractices.web.WebActivity;
+import com.zfy.rxbestpractices.ui.web.WebActivity;
 
 import butterknife.BindView;
 

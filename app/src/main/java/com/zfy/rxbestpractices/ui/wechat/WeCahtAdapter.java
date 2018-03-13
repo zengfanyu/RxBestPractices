@@ -1,4 +1,4 @@
-package com.zfy.rxbestpractices.weixin;
+package com.zfy.rxbestpractices.ui.wechat;
 
 import android.widget.ImageView;
 

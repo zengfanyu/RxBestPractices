@@ -1,4 +1,4 @@
-package com.zfy.rxbestpractices.web;
+package com.zfy.rxbestpractices.ui.web;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;

@@ -15,6 +15,7 @@
     <string name="article_pre_day">每日一文</string>
     <string name="look_video">开眼视频</string>
     <string name="gank_article">热门干货</string>
+    <string name="national_geographic">国家地理</string>
     <string name="no_network">没有网络,请检查网络环境</string>
     <string name="like">喜欢</string>
     <string name="copy_url">复制链接</string>
@@ -22,6 +23,8 @@
     <string name="copy_success">已复制链接到剪切板</string>
     <string name="like_success">收藏成功</string>
     <string name="remove_like_success">取消收藏</string>
+    <string name="ng_title">Hello MVP+RxJava+Retrofit+Dagger</string>
+    <string name="ng_content">我们生命中出现过的一些人我们的确不知道是什么时候认识的，好像一生下来或者是从开始记事儿的时候就认识他们。我很庆幸，那些我不知道是什么时候认识的人并没有弄丢太多，每每想起都会觉得很温暖。</string>
 
 
 </resources>

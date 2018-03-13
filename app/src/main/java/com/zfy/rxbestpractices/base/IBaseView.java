@@ -13,6 +13,14 @@ public interface IBaseView {
     void showMsgTip(String msg);
 
     /**
+     * 可定制SnackBar显示信息的背景和文字颜色
+     * @param msg
+     * @param messageColor
+     * @param backgroundColor
+     */
+    void showMsgTip(String msg,int messageColor,int backgroundColor);
+
+    /**
      * 显示异常信息
      * @param msg
      */
