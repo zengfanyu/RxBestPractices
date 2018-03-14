@@ -15,6 +15,7 @@ import com.zfy.rxbestpractices.di.module.NGFragmentModule;
 import com.zfy.rxbestpractices.http.api.NGApi;
 import com.zfy.rxbestpractices.http.bean.NGBean;
 import com.zfy.rxbestpractices.presenter.NGPresenter;
+import com.zfy.rxbestpractices.ui.fullscreenimg.FullScreenImageActivity;
 import com.zfy.rxbestpractices.util.LogUtil;
 
 import java.util.List;
@@ -57,9 +58,7 @@ public class NGFragment extends BaseMVPFragment<NGPresenter> implements NGContra
         mSwipeLayout.setRefreshing(true);
         mSwipeLayout.setOnRefreshListener(this);
 
-        // TODO(ZFY): 2018/3/13
         mNGAdapter = new NGAdapter(R.layout.item_ng);
-        mNGAdapter.openLoadAnimation();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
@@ -67,10 +66,10 @@ public class NGFragment extends BaseMVPFragment<NGPresenter> implements NGContra
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mNGAdapter.setOnItemChildClickListener((adapter, view, position) -> {
             if (view.getId()==R.id.id_ng_img){
-                LogUtil.d(TAG, "item child img:" + " position:" + position + " clicked!");
+                FullScreenImageActivity.launchActivity(mActivity,view, ((NGBean)adapter.getData().get(position)).getImgUrl());
             }else if (view.getId()==R.id.id_ng_title){
                 LogUtil.d(TAG, "item child title :" + " position:" + position + " clicked!");
-            }else {
+            }else if (view.getId()==R.id.id_ng_content){
                 LogUtil.d(TAG, "item child content:" + " position:" + position + " clicked!");
             }
 
@@ -99,16 +98,6 @@ public class NGFragment extends BaseMVPFragment<NGPresenter> implements NGContra
         mSwipeLayout.setRefreshing(false);
 //        showErrorTip(msg);
         showErrorView(R.layout.empty_view);
-    }
-
-    @Override
-    public void showBigPic() {
-        // TODO(ZFY): 2018/3/13 点击图片全屏可缩放
-    }
-
-    @Override
-    public void showPicDesc() {
-        // TODO(ZFY): 2018/3/13 点击文字进入详情页面
     }
 
     @Override

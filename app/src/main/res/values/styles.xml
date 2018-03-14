@@ -37,4 +37,9 @@
         <item name="color">@color/drawerArrowColor</item>
     </style>
 
+    <style name="FullScreenImgThem" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowTranslucentStatus" tools:targetApi="19">true</item>
+        <item name="android:windowActivityTransitions" tools:targetApi="lollipop">true</item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">@color/black</item>
+    </style>
 </resources>

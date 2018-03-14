@@ -5,6 +5,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.zfy.rxbestpractices.R;
 import com.zfy.rxbestpractices.config.GlideApp;
 
@@ -33,6 +34,17 @@ public class ImageLoader {
                 .priority(Priority.LOW)
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(imageView);
+    }
+
+    public static void loadAll(Context context, String imgUrl, SimpleTarget simpleTarget){
+        GlideApp.with(context)
+                .load(imgUrl)
+                .centerCrop()
+                .placeholder(R.drawable.icon_default)
+                .error(R.drawable.icon_default)
+                .priority(Priority.LOW)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                .into(simpleTarget);
     }
 
     public static void loadAll(Context context, int imgRes, ImageView imageView) {

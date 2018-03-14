@@ -22,17 +22,6 @@ public interface NGContract {
          */
         void getNGDataFailed(String msg);
 
-        /**
-         *
-         */
-        void showBigPic();
-
-        /**
-         *
-         */
-        void showPicDesc();
-
-
     }
 
     interface Presenter extends IBasePresenter<View> {
