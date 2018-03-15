@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +22,6 @@ import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.zfy.rxbestpractices.R;
-import com.zfy.rxbestpractices.base.BaseActivity;
 import com.zfy.rxbestpractices.config.App;
 import com.zfy.rxbestpractices.db.GreenDaoManager;
 import com.zfy.rxbestpractices.db.bean.LikeBean;
@@ -32,11 +32,14 @@ import com.zfy.rxbestpractices.widget.X5WebView;
 import java.io.Serializable;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 
 /**
  * @author: fanyuzeng on 2018/3/5 11:24
  */
-public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class WebActivity extends SwipeBackActivity implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "-WebActivity-";
     public static final String DATA_BEAN = "data_bean";
 
@@ -56,7 +59,17 @@ public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
     private boolean mLike = false;
     private GreenDaoManager mDaoManager;
 
+
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(getContentViewId());
+        ButterKnife.bind(this);
+        initViews();
+        SwipeBackLayout swipeBackLayout = getSwipeBackLayout();
+        swipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_ALL);
+    }
+
     protected void initViews() {
 
         LogUtil.d(TAG, "initViews");
@@ -177,7 +190,6 @@ public class WebActivity extends BaseActivity implements SwipeRefreshLayout.OnRe
         mWebView.loadUrl(mUrl);
     }
 
-    @Override
     public int getContentViewId() {
         return R.layout.activity_web;
     }
