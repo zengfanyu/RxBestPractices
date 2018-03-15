@@ -1,12 +1,13 @@
 package com.zfy.rxbestpractices.http.bean;
 
-import java.io.Serializable;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 /**
  * @author: fanyuzeng on 2018/3/1 14:53
  */
-public class WeixinBean implements Serializable {
+public class WeChatBean {
 
     /**
      * code : 200
@@ -42,7 +43,8 @@ public class WeixinBean implements Serializable {
         this.newslist = newslist;
     }
 
-    public static class NewslistBean implements Serializable {
+
+    public static class NewslistBean implements MultiItemEntity {
         /**
          * ctime : 2018-03-01
          * title : 3月新一轮流感爆发？专家怎么说？这样做可以预防流感！
@@ -56,6 +58,19 @@ public class WeixinBean implements Serializable {
         private String description;
         private String picUrl;
         private String url;
+
+        public static final int ITEM_TYPE_BIG = 1;
+        public static final int ITEM_TYPE_SMALL = 0;
+        private int itemType = ITEM_TYPE_SMALL;
+
+        public void setItemType(int itemType) {
+            this.itemType = itemType;
+        }
+
+        @Override
+        public int getItemType() {
+            return itemType;
+        }
 
         public String getCtime() {
             return ctime;
@@ -111,7 +126,7 @@ public class WeixinBean implements Serializable {
 
     @Override
     public String toString() {
-        return "WeixinBean{" +
+        return "WeChatBean{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", newslist=" + newslist +

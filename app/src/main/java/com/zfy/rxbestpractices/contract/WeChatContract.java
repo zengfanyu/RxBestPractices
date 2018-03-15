@@ -2,7 +2,7 @@ package com.zfy.rxbestpractices.contract;
 
 import com.zfy.rxbestpractices.base.IBasePresenter;
 import com.zfy.rxbestpractices.base.IBaseView;
-import com.zfy.rxbestpractices.http.bean.WeixinBean;
+import com.zfy.rxbestpractices.http.bean.WeChatBean;
 
 /**
  * WeChatFragment 的契约类，聚合 View 层和 Presenter 层接口
@@ -17,7 +17,7 @@ public interface WeChatContract {
          *
          * @param result
          */
-        void showWeCahtData(WeixinBean result);
+        void showWeCahtData(WeChatBean result);
 
         /**
          * View 层展示错误信息的接口

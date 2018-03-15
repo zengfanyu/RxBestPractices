@@ -7,7 +7,7 @@ import com.zfy.rxbestpractices.base.BaseSubscriber;
 import com.zfy.rxbestpractices.config.Constants;
 import com.zfy.rxbestpractices.contract.WeChatContract;
 import com.zfy.rxbestpractices.http.api.WeixinApi;
-import com.zfy.rxbestpractices.http.bean.WeixinBean;
+import com.zfy.rxbestpractices.http.bean.WeChatBean;
 import com.zfy.rxbestpractices.util.LogUtil;
 
 import javax.inject.Inject;
@@ -34,9 +34,9 @@ public class WeChatPresenter extends BaseRxPresenter<WeChatContract.View> implem
         addSubscribe(mWeixinApi.getWeiXin(Constants.WEIXIN_API_KEY, pageSize, pageIndex)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new BaseSubscriber<WeixinBean>(mContext, mView) {
+                .subscribeWith(new BaseSubscriber<WeChatBean>(mContext, mView) {
                     @Override
-                    public void onNext(WeixinBean weiXinBean) {
+                    public void onNext(WeChatBean weiXinBean) {
                         LogUtil.d(TAG, "onNext result:"+weiXinBean.toString());
                         if (weiXinBean.getCode()==Constants.HTTP_OK) {
                             mView.showWeCahtData(weiXinBean);

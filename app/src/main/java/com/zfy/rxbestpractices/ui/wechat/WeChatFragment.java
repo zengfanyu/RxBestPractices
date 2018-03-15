@@ -14,10 +14,12 @@ import com.zfy.rxbestpractices.config.Constants;
 import com.zfy.rxbestpractices.contract.WeChatContract;
 import com.zfy.rxbestpractices.di.component.DaggerWeixinFragmentComponent;
 import com.zfy.rxbestpractices.di.module.WeixinFragmentModule;
-import com.zfy.rxbestpractices.http.bean.WeixinBean;
+import com.zfy.rxbestpractices.http.bean.WeChatBean;
 import com.zfy.rxbestpractices.presenter.WeChatPresenter;
-import com.zfy.rxbestpractices.util.LogUtil;
 import com.zfy.rxbestpractices.ui.web.WebActivity;
+import com.zfy.rxbestpractices.util.LogUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -68,30 +70,50 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
         mSwipeLayout.setRefreshing(true);
         mSwipeLayout.setOnRefreshListener(this);
 
-        mAdapter = new WeCahtAdapter(R.layout.item_weixin);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-        mRecyclerView.setAdapter(mAdapter);
+
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter.setOnLoadMoreListener(this, mRecyclerView);
-        mAdapter.setOnItemClickListener((adapter, view, position) -> {
-            LogUtil.d(TAG, "item " + position + " clicked!");
-            WeixinBean.NewslistBean newslistBean = (WeixinBean.NewslistBean) adapter.getData().get(position);
-            WebActivity.launchActivity(mContext,
-                    new WebActivity.Builder()
-                            .setDataType(Constants.TYPE_WECHAT)
-                            .setGuid(newslistBean.getUrl())
-                            .setImgUrl(newslistBean.getPicUrl())
-                            .setShowLikeIcon(true)
-                            .setTitle(newslistBean.getTitle())
-                            .setUrl(newslistBean.getUrl()));
-        });
+
     }
 
     @Override
-    public void showWeCahtData(WeixinBean result) {
+    public void showWeCahtData(WeChatBean result) {
         LogUtil.d(TAG, "showWeCahtData");
+        List<WeChatBean.NewslistBean> datas = result.getNewslist();
+
+        if (mPageIndex == 1) {
+            datas.get(0).setItemType(WeChatBean.NewslistBean.ITEM_TYPE_BIG);
+            if (mAdapter == null) {
+                mAdapter = new WeCahtAdapter(datas);
+                mAdapter.setOnLoadMoreListener(this, mRecyclerView);
+                mAdapter.setOnItemClickListener((adapter, view, position) -> {
+                    LogUtil.d(TAG, "item " + position + " clicked!");
+                    WeChatBean.NewslistBean newslistBean = (WeChatBean.NewslistBean) adapter.getData().get(position);
+                    WebActivity.launchActivity(mContext,
+                            new WebActivity.Builder()
+                                    .setDataType(Constants.TYPE_WECHAT)
+                                    .setGuid(newslistBean.getUrl())
+                                    .setImgUrl(newslistBean.getPicUrl())
+                                    .setShowLikeIcon(true)
+                                    .setTitle(newslistBean.getTitle())
+                                    .setUrl(newslistBean.getUrl()));
+                });
+                mRecyclerView.setAdapter(mAdapter);
+            }
+            //刷新
+            mAdapter.setNewData(datas);
+            LogUtil.d(TAG, "刷新成功");
+            if (isDataRefresh) {
+                showMsgTip("刷新成功");
+                isDataRefresh = false;
+            }
+        } else {
+            //加载更多
+            mAdapter.addData(datas);
+        }
+
         if (mSwipeLayout != null && mSwipeLayout.isRefreshing()) {
             mSwipeLayout.setRefreshing(false);
             mAdapter.setEnableLoadMore(true);
@@ -101,22 +123,9 @@ public class WeChatFragment extends BaseMVPFragment<WeChatPresenter> implements 
             mSwipeLayout.setEnabled(true);
         }
 
-
-        if (mPageIndex == 1) {
-            //刷新
-            mAdapter.setNewData(result.getNewslist());
-            LogUtil.d(TAG, "刷新成功");
-            if (isDataRefresh) {
-                showMsgTip("刷新成功");
-                isDataRefresh = false;
-            }
-        } else {
-            //加载更多
-            mAdapter.addData(result.getNewslist());
-        }
-        if (result.getNewslist().size() == PAGE_SIZE) {
+        if (datas.size() == PAGE_SIZE) {
             mAdapter.loadMoreComplete();
-        } else if (result.getNewslist().size() < PAGE_SIZE) {
+        } else if (datas.size() < PAGE_SIZE) {
             mAdapter.loadMoreEnd();
         }
     }

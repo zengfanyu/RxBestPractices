@@ -1,6 +1,6 @@
 package com.zfy.rxbestpractices.http.api;
 
-import com.zfy.rxbestpractices.http.bean.WeixinBean;
+import com.zfy.rxbestpractices.http.bean.WeChatBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -20,5 +20,5 @@ public interface WeixinApi {
      * @return
      */
     @GET("wxnew/")
-    Flowable<WeixinBean> getWeiXin(@Query("key") String key, @Query("num") int pageSize, @Query("page") int pageIndex);
+    Flowable<WeChatBean> getWeiXin(@Query("key") String key, @Query("num") int pageSize, @Query("page") int pageIndex);
 }
