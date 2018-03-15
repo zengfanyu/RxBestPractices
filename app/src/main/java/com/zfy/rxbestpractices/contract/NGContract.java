@@ -12,13 +12,16 @@ import java.util.List;
 public interface NGContract {
 
     interface View extends IBaseView {
+
         /**
+         * 获取数据成功调用，展示数据
+         *
          * @param data
          */
         void showNGData(List<NGBean> data);
 
         /**
-         *
+         * 获取数据失败时调用
          */
         void getNGDataFailed(String msg);
 
@@ -26,6 +29,8 @@ public interface NGContract {
 
     interface Presenter extends IBasePresenter<View> {
         /**
+         * 获取数据
+         *
          * @param url
          * @return
          */

@@ -23,6 +23,7 @@ import com.zfy.rxbestpractices.di.module.FullScreenModule;
 import com.zfy.rxbestpractices.presenter.FullScreenPresenter;
 import com.zfy.rxbestpractices.util.ImageLoader;
 import com.zfy.rxbestpractices.util.SnackBarUtil;
+import com.zfy.rxbestpractices.util.VibratorUtil;
 
 import butterknife.BindView;
 
@@ -91,6 +92,8 @@ public class FullScreenImageActivity extends BaseMVPActivity<FullScreenPresenter
             if (mImageDrawable == null) {
                 return false;
             }
+            VibratorUtil.vibrator(this, 1000);
+            VibratorUtil.vibratorCancel(this);
             mPresenter.setupTagView();
             return true;
         });

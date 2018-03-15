@@ -9,16 +9,16 @@ import com.zfy.rxbestpractices.R;
 /**
  * @author: fanyuzeng on 2018/3/14 19:04
  */
-public class MyImageView extends android.support.v7.widget.AppCompatImageView {
+public class AutoRatioImageView extends android.support.v7.widget.AppCompatImageView {
     /**
      * 宽高比
      */
     private float ratio;
 
-    public MyImageView(Context context, AttributeSet attrs) {
+    public AutoRatioImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyImageView);
-        ratio = typedArray.getFloat(R.styleable.MyImageView_ratio, 0.0f);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.AutoRatioImageView);
+        ratio = typedArray.getFloat(R.styleable.AutoRatioImageView_ratio, 0.0f);
         typedArray.recycle();
     }
 
@@ -38,9 +38,11 @@ public class MyImageView extends android.support.v7.widget.AppCompatImageView {
         } else if (widthMode != MeasureSpec.EXACTLY && heightMode == MeasureSpec.EXACTLY & ratio != 0) {
             widthSize = (int) (heightSize / ratio + 0.5f);
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
+        } else if (widthMode != MeasureSpec.EXACTLY && heightMode != MeasureSpec.EXACTLY && ratio != 0) {
+            //这种情况是当宽高都是 wrap_content 时，那就按照 宽确定，高wrap_content 来计算
+            heightSize = (int) (widthSize * ratio + 0.5f);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         }
-
-        //必须调用下面的两个方法之一完成onMeasure方法的重写，否则会报错 super.onMeasure(widthMeasureSpec,heightMeasureSpec);
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 

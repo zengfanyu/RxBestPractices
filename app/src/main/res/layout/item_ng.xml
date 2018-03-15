@@ -10,7 +10,7 @@
     android:padding="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.zfy.rxbestpractices.widget.MyImageView
+    <com.zfy.rxbestpractices.widget.AutoRatioImageView
         android:id="@+id/id_ng_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
